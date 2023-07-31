@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>weather Today</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        body{
+            background-image: url("./images/pexels-photo-2449543.webp");
+        }
+    </style>
+</head>
+  <body style="margin: 0;">
+   
+<div class="container w-50 mt-5">
+        <div class=" row w-100 container"style="display: flex; color: white;">
+           <div class="col-6"><h3 class="text-end" style="font-family: 'Lobster', cursive;color: white;">weather Today</h3></div><div class="col-6"><i class="fa-solid fa-cloud-sun-rain fa-4x"></i></div>
+        </div>  
+        <div id="currentl" ></div>
+        <div class=" row text-white w-100 container p-3 mt-5" style="background-color: rgba(0, 139, 139, 0.414);">
+            <div class="col-8"><input type="text" id="loc" placeholder="Enter Location" class="form-control"></div>
+            <div class="col-4"><button type="button" class="btn btn-info" onclick="getData()"> <i class="fa-solid fa-magnifying-glass fa-2x"></i></button></div>
+            
+          </div>
+          <div id="id1" class="mt-4 p-2 container w-100 text-center" ></div>
+          </div>
+        
+</body>
+<script>
+
+//window.onload=getLocation()
+    var p=currentl.value
+    function getLocation()
+    {
+        if(navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(getPosition)
+
+        }
+        else{
+            p.innerHTML=`Geolocation API is not supported`
+        }
+    }
+    getLocation();
+    function getPosition(position)
+    {
+        p.innerHTML="location:lattitude:"+ position.coords.latitude +"Location:longitude: "+position.coords.longitude
+    }
+
+
+
+
+
+function getData()
+  {
+  location1=loc.value
+  const apiKey = "b41ec3be35c7dac8aabbc21ba253137a";
+  console.log(location1);
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location1}&appid=${apiKey}`).then(data=>data.json()).then(wdata=>displayData(wdata))
+  
+    
+    function displayData(dataArray)
+  {
+    x=dataArray["coord"]["lon"]
+    y=dataArray["coord"]["lat"]
+   // console.log(x);
+    //console.log(y);
+    locname=dataArray.name
+    weath=dataArray.weather[0].description
+   // console.log(weath);
+     temp=dataArray.main.temp
+     feel=dataArray.main.feels_like
+     humidity=dataArray.main.humidity
+     
+     id1.innerHTML=`<ul class="list-group list-group-flush">
+      <h3 class="card-title" style="font-family: 'Lobster', cursive;color: white">${locname}</h3>
+  <li class="list-group-item" style="background-color: rgba(240, 248, 255, 0.255);font-family: 'Lobster', cursive;color: blue;">Weather: ${weath}</li>
+  <li class="list-group-item" style="background-color: rgba(240, 248, 255, 0.255);font-family: 'Lobster', cursive;color: blue;">Temparature:${temp}</li>
+  <li class="list-group-item" style="background-color: rgba(240, 248, 255, 0.255);font-family: 'Lobster', cursive;color: blue;">Feelslike:${feel}</li>
+  <li class="list-group-item" style="background-color: rgba(240, 248, 255, 0.255);font-family: 'Lobster', cursive;color: blue;">Humidity${humidity}</li>
+</ul>`
+
+//     id1.innerHTML=`<div class="card" style="width:100%;">
+//   <ul class="list-group list-group-flush">
+//     <h4 class="card-title">${locname}</h4>
+//     <li class="list-group-item" style="background-color: rgba(162, 179, 201, 0.2);font-family: 'Lobster', cursive;">Weather: ${weath}</li>
+//     <li class="list-group-item" style="background-color: rgba(162, 179, 201, 0.2);font-family: 'Lobster', cursive;">Temparature:${temp}</li>
+//     <li class="list-group-item" style="background-color: rgba(162, 179, 201, 0.2);font-family: 'Lobster', cursive;">Feelslike:${feel}</li>
+//     <li class="list-group-item" style="background-color: rgba(162, 179, 201, 0.2);font-family: 'Lobster', cursive;">Humidity${humidity}</li>
+//   </ul>
+// </div>`
+  
+// id1.innerHTML=` <div class="container w-100"> <table class="table caption-top text-center">
+//   <caption class="text-center fs-3"><strong>${locname}</strong></caption>
+//   <thead>
+//     <tr>
+//       <th scope="col">Weather</th>
+//       <th scope="col">Temparature</th>
+//       <th scope="col">Feels like</th>
+//       <th scope="col">humidity</th>
+//     </tr>
+//   </thead>
+//   <tbody>
+//     <tr>
+//       <th scope="row">${weath}</th>
+//       <td>${temp}</td>
+//       <td>${feel}</td>
+//       <td>${humidity}</td>
+//     </tr>
+    
+//   </tbody>
+// </table>
+// </div>
+// `
+}
+   }
+
+</script>
+</html>
